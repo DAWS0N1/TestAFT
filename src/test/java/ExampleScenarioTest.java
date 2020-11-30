@@ -5,6 +5,7 @@ import org.junit.Test;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -44,10 +45,9 @@ public class ExampleScenarioTest {
         WebElement travellersInsuranceButton = driver.findElement(By.xpath(rgsInsuranceButtonXPath));
         travellersInsuranceButton.click();
 
-        Thread.sleep(1000);
-
         //Проверка заголовка
         WebElement h1Zagolovok = driver.findElement(By.xpath("//h1"));
+        wait.until(ExpectedConditions.visibilityOf(h1Zagolovok));
         Assert.assertEquals("Заголовок отсутствует/не соответствует требуемому",
                 "ДМС — добровольное медицинское страхование", h1Zagolovok.getText());
 
@@ -56,11 +56,9 @@ public class ExampleScenarioTest {
         WebElement rgsRequestButton = driver.findElement(By.xpath(rgsRequestButtonXPath));
         rgsRequestButton.click();
 
-        //Подождать 2 секунды
-        Thread.sleep(2000);
-
         //Проверка заголовка окна заявки
         WebElement bZagolovok = driver.findElement(By.xpath("//b"));
+        wait.until(ExpectedConditions.visibilityOf(bZagolovok));
         Assert.assertEquals("Заголовок отсутствует/не соответствует требуемому",
                 "Заявка на добровольное медицинское страхование", bZagolovok.getText());
 
@@ -78,7 +76,7 @@ public class ExampleScenarioTest {
         WebElement insurRegion = driver.findElement(By.xpath(regionXPath));
         WebElement insurMoscow = driver.findElement(By.xpath(regionMoscowXPath));
         insurRegion.click();
-        Thread.sleep(500);
+        wait.until(ExpectedConditions.visibilityOf(insurMoscow));
         insurMoscow.click();
         fillInputField(driver.findElement(By.xpath(String.format(fieldXPath, "Email"))), "gmail123");
         fillInputField(driver.findElement(By.xpath(String.format(fieldXPath, "ContactDate"))), "02.12.2020");
@@ -98,7 +96,7 @@ public class ExampleScenarioTest {
 
     @After
     public void after() {
-//        driver.quit();
+        driver.quit();
     }
 
     private void scrollToElementJs(WebElement element) {
